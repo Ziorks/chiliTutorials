@@ -42,22 +42,72 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	const int x = 400;
-	const int y = 425;
-	const int r = 0;
-	const int b = 200;
-	const int g = 100;
+	int x = 400;
+	int y = 425;
+	int r = 0;
+	int b = 200;
+	int g = 100;
 
-	gfx.PutPixel(x - 5, y    , r, b, g);
-	gfx.PutPixel(x - 4, y    , r, b, g);
-	gfx.PutPixel(x - 3, y    , r, b, g);
-	gfx.PutPixel(x + 3, y    , r, b, g);
-	gfx.PutPixel(x + 4, y    , r, b, g);
-	gfx.PutPixel(x + 5, y    , r, b, g);
-	gfx.PutPixel(x    , y - 5, r, b, g);
-	gfx.PutPixel(x    , y - 4, r, b, g);
-	gfx.PutPixel(x    , y - 3, r, b, g);
-	gfx.PutPixel(x    , y + 3, r, b, g);
-	gfx.PutPixel(x    , y + 4, r, b, g);
-	gfx.PutPixel(x    , y + 5, r, b, g);
+	if (wnd.kbd.KeyIsPressed(VK_UP))
+	{
+		y -= 50;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	{
+		x -= 50;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		y += 50;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	{
+		x += 50;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+	{
+		r = 150;
+		b = 50;
+		g = 25;
+	}
+
+	if (!wnd.kbd.KeyIsPressed(VK_SHIFT))
+	{
+		gfx.PutPixel(x - 5, y, r, b, g);
+		gfx.PutPixel(x - 4, y, r, b, g);
+		gfx.PutPixel(x - 3, y, r, b, g);
+		gfx.PutPixel(x + 3, y, r, b, g);
+		gfx.PutPixel(x + 4, y, r, b, g);
+		gfx.PutPixel(x + 5, y, r, b, g);
+		gfx.PutPixel(x, y - 5, r, b, g);
+		gfx.PutPixel(x, y - 4, r, b, g);
+		gfx.PutPixel(x, y - 3, r, b, g);
+		gfx.PutPixel(x, y + 3, r, b, g);
+		gfx.PutPixel(x, y + 4, r, b, g);
+		gfx.PutPixel(x, y + 5, r, b, g);
+	}
+	else
+	{
+		gfx.PutPixel(x - 5, y + 5, r, b, g);
+		gfx.PutPixel(x - 4, y + 4, r, b, g);
+		gfx.PutPixel(x - 3, y + 3, r, b, g);
+		gfx.PutPixel(x + 3, y - 3, r, b, g);
+		gfx.PutPixel(x + 4, y - 4, r, b, g);
+		gfx.PutPixel(x + 5, y - 5 , r, b, g);
+		gfx.PutPixel(x - 5, y - 5, r, b, g);
+		gfx.PutPixel(x - 4, y - 4, r, b, g);
+		gfx.PutPixel(x - 3, y - 3, r, b, g);
+		gfx.PutPixel(x + 3, y + 3, r, b, g);
+		gfx.PutPixel(x + 4, y + 4, r, b, g);
+		gfx.PutPixel(x + 5, y + 5, r, b, g);
+	}
+
+	//homework:
+	//arrows move reticle on a grid
+	//ctrl changes color
+	//shift changes shape
 }

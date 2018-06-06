@@ -42,30 +42,28 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	int x = 400;
-	int y = 425;
 	int r = 0;
 	int b = 200;
 	int g = 100;
 
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y -= 50;
+		y -= 3;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		x -= 50;
+		x -= 3;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		y += 50;
+		y += 3;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		x += 50;
+		x += 3;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
@@ -105,9 +103,4 @@ void Game::ComposeFrame()
 		gfx.PutPixel(x + 4, y + 4, r, b, g);
 		gfx.PutPixel(x + 5, y + 5, r, b, g);
 	}
-
-	//homework:
-	//arrows move reticle on a grid
-	//ctrl changes color
-	//shift changes shape
 }

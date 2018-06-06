@@ -44,5 +44,10 @@ private:
 	/*  User Variables              */
 	int x = 400;
 	int y = 425;
+	int vx = 0;
+	int vy = 0;
+	int r = 0;
+	int b = 200;
+	int g = 100;
 	/********************************/
 };

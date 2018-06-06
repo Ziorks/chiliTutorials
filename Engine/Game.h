@@ -49,5 +49,10 @@ private:
 	int r = 0;
 	int b = 200;
 	int g = 100;
+	bool shapeIsChanged = false;
+	bool inhibitUp = false;
+	bool inhibitDown = false;
+	bool inhibitLeft = false;
+	bool inhibitRight = false;
 	/********************************/
 };

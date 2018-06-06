@@ -38,28 +38,60 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	x += vx;
-	y += vy;
-
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		vy -= 1;
+		if (!inhibitUp)
+		{
+			vy -= 1;
+			inhibitUp = true;
+		}
+	}
+	else
+	{
+		inhibitUp = false;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		vx -= 1;
+		if (!inhibitLeft)
+		{
+			vx -= 1;
+			inhibitLeft = true;
+		}
+	}
+	else
+	{
+		inhibitLeft = false;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		vy += 1;
+		if (!inhibitDown)
+		{
+			vy += 1;
+			inhibitDown = true;
+		}
+	}
+	else
+	{
+		inhibitDown = false;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		vx += 1;
+		if (!inhibitRight)
+		{
+			vx += 1;
+			inhibitRight = true;
+		}
 	}
+	else
+	{
+		inhibitRight = false;
+	}
+   
+	x += vx;
+	y += vy;
 
 	if (x > gfx.ScreenWidth - 6)
 	{
@@ -90,11 +122,13 @@ void Game::UpdateModel()
 		b = 200;
 		g = 100;
 	}
+
+	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);	
 }
 
 void Game::ComposeFrame()
 {
-	if (!wnd.kbd.KeyIsPressed(VK_SHIFT))
+	if (!shapeIsChanged)
 	{
 		gfx.PutPixel(x - 5, y, r, b, g);
 		gfx.PutPixel(x - 4, y, r, b, g);

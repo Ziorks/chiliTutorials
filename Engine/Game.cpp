@@ -76,70 +76,72 @@ void Game::UpdateModel()
 		mobile_y = 5;
 	}	
 
-	const int mobile_bottom = mobile_y + 5;
-	const int mobile_top = mobile_y - 5;
-	const int mobile_left = mobile_x - 5;
-	const int mobile_right = mobile_x + 5;
-
-	if (mobile_left < fixed_right && 
-		mobile_right > fixed_left &&
-		mobile_top < fixed_bottom && 
-		mobile_bottom > fixed_top)
-	{
-		mobile_r = 255;
-		mobile_g = 0;
-		mobile_b = 0;
-	}
-	else
-	{
-		mobile_r = 0;
-		mobile_g = 255;
-		mobile_b = 100;
-	}
+	colliding = 
+		OverlapTest(mobile_x, mobile_y, fixed_x0, fixed_y0) ||
+		OverlapTest(mobile_x, mobile_y, fixed_x1, fixed_y1) ||
+		OverlapTest(mobile_x, mobile_y, fixed_x2, fixed_y2) ||
+		OverlapTest(mobile_x, mobile_y, fixed_x3, fixed_y3);
 }
 
 void Game::ComposeFrame()
 {
-	gfx.PutPixel(mobile_x - 5, mobile_y + 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 5, mobile_y + 4, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 5, mobile_y + 3, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 5, mobile_y - 3, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 5, mobile_y - 4, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 5, mobile_y - 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 5, mobile_y - 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 5, mobile_y - 4, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 5, mobile_y - 3, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 5, mobile_y + 3, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 5, mobile_y + 4, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 5, mobile_y + 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 4, mobile_y + 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 3, mobile_y + 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 4, mobile_y - 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 3, mobile_y - 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 4, mobile_y - 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x - 3, mobile_y - 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 4, mobile_y + 5, mobile_r, mobile_g, mobile_b);
-	gfx.PutPixel(mobile_x + 3, mobile_y + 5, mobile_r, mobile_g, mobile_b);
+	DrawBox(fixed_x0, fixed_y0, 255, 255, 255);
+	DrawBox(fixed_x1, fixed_y1, 255, 255, 255);
+	DrawBox(fixed_x2, fixed_y2, 255, 255, 255);
+	DrawBox(fixed_x3, fixed_y3, 255, 255, 255);
 
-
-	gfx.PutPixel(fixed_x - 5, fixed_y + 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 5, fixed_y + 4, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 5, fixed_y + 3, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 5, fixed_y - 3, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 5, fixed_y - 4, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 5, fixed_y - 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 5, fixed_y - 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 5, fixed_y - 4, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 5, fixed_y - 3, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 5, fixed_y + 3, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 5, fixed_y + 4, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 5, fixed_y + 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 4, fixed_y + 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 3, fixed_y + 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 4, fixed_y - 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 3, fixed_y - 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 4, fixed_y - 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x - 3, fixed_y - 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 4, fixed_y + 5, fixed_r, fixed_g, fixed_b);
-	gfx.PutPixel(fixed_x + 3, fixed_y + 5, fixed_r, fixed_g, fixed_b);
+	if (colliding)
+	{
+		DrawBox(mobile_x, mobile_y, 255, 0, 0);
+	}
+	else
+	{
+		DrawBox(mobile_x, mobile_y, 0, 255, 100);
+	}
 }
+
+void Game::DrawBox(int x, int y, int r, int g, int b)
+{
+	gfx.PutPixel(x - 5, y + 5, r, g, b);
+	gfx.PutPixel(x - 5, y + 4, r, g, b);
+	gfx.PutPixel(x - 5, y + 3, r, g, b);
+	gfx.PutPixel(x + 5, y - 3, r, g, b);
+	gfx.PutPixel(x + 5, y - 4, r, g, b);
+	gfx.PutPixel(x + 5, y - 5, r, g, b);
+	gfx.PutPixel(x - 5, y - 5, r, g, b);
+	gfx.PutPixel(x - 5, y - 4, r, g, b);
+	gfx.PutPixel(x - 5, y - 3, r, g, b);
+	gfx.PutPixel(x + 5, y + 3, r, g, b);
+	gfx.PutPixel(x + 5, y + 4, r, g, b);
+	gfx.PutPixel(x + 5, y + 5, r, g, b);
+	gfx.PutPixel(x - 4, y + 5, r, g, b);
+	gfx.PutPixel(x - 3, y + 5, r, g, b);
+	gfx.PutPixel(x + 4, y - 5, r, g, b);
+	gfx.PutPixel(x + 3, y - 5, r, g, b);
+	gfx.PutPixel(x - 4, y - 5, r, g, b);
+	gfx.PutPixel(x - 3, y - 5, r, g, b);
+	gfx.PutPixel(x + 4, y + 5, r, g, b);
+	gfx.PutPixel(x + 3, y + 5, r, g, b);
+}
+
+bool Game::OverlapTest(int x0, int y0, int x1, int y1)
+{
+	const int box0_bottom = y0 + 5;
+	const int box0_top = y0 - 5;
+	const int box0_left = x0 - 5;
+	const int box0_right = x0 + 5;
+	const int box1_bottom = y1 + 5;
+	const int box1_top = y1 - 5;
+	const int box1_left = x1 - 5;
+	const int box1_right = x1 + 5;
+
+	return
+		box0_left <= box1_right &&
+		box0_right >= box1_left &&
+		box0_top <= box1_bottom &&
+		box0_bottom >= box1_top;
+}
+
+//homework:
+//ezpz mode: create function to keep box within window
+//hard mode: same thing but can't use x_mobile or y_mobile (ie can't use member variables directly)

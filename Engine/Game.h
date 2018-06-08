@@ -36,6 +36,8 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void DrawBox(int x, int y, int r, int g, int b);
+	bool OverlapTest(int x0, int x1, int y0, int y1);
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -44,17 +46,14 @@ private:
 	/*  User Variables              */
 	int mobile_x = 400;
 	int mobile_y = 425;
-	int mobile_r = 0;
-	int mobile_g = 255;
-	int mobile_b = 100;
-	const int fixed_x = 450;
-	const int fixed_y = 300;
-	const int fixed_r = 255;
-	const int fixed_g = 255;
-	const int fixed_b = 255;
-	const int fixed_bottom = fixed_y + 5;
-	const int fixed_top = fixed_y - 5;
-	const int fixed_left = fixed_x - 5;
-	const int fixed_right = fixed_x + 5;
+	const int fixed_x0 = 450;
+	const int fixed_y0 = 300;
+	const int fixed_x1 = 250;
+	const int fixed_y1 = 150;
+	const int fixed_x2 = 500;
+	const int fixed_y2 = 375;
+	const int fixed_x3 = 100;
+	const int fixed_y3 = 500;
+	bool colliding = false;
 	/********************************/
 };

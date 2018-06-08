@@ -47,8 +47,13 @@ private:
 	int vx = 0;
 	int vy = 0;
 	int r = 0;
-	int b = 200;
-	int g = 100;
+	int g = 200;
+	int b = 100;
+	const int boxX = 450;
+	const int boxY = 300;
+	const int boxR = 0;
+	const int boxG = 255;
+	const int boxB = 100;
 	bool shapeIsChanged = false;
 	bool inhibitUp = false;
 	bool inhibitDown = false;

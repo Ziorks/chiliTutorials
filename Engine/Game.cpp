@@ -117,17 +117,18 @@ void Game::UpdateModel()
 	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
 	{
 		r = 150;
-		b = 50;
-		g = 25;
+		g = 50;
+		b = 25;
 	}
 	else
 	{
 		r = 0;
-		b = 200;
-		g = 100;
+		g = 200;
+		b = 100;
 	}
 
-	if (x < 300 && x > 100)
+	if (x < boxX + 5 && x > boxX - 5 &&
+		y < boxY + 5 && y > boxY - 5)
 	{
 		r = 255;
 		g = 255;
@@ -135,42 +136,59 @@ void Game::UpdateModel()
 	}	
 
 	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);
-
-	//homework: 
-	//put a stationary green box on the screen
-	//make the reticle change color when it overlaps this green box
 }
 
 void Game::ComposeFrame()
 {
 	if (!shapeIsChanged)
 	{
-		gfx.PutPixel(x - 5, y, r, b, g);
-		gfx.PutPixel(x - 4, y, r, b, g);
-		gfx.PutPixel(x - 3, y, r, b, g);
-		gfx.PutPixel(x + 3, y, r, b, g);
-		gfx.PutPixel(x + 4, y, r, b, g);
-		gfx.PutPixel(x + 5, y, r, b, g);
-		gfx.PutPixel(x, y - 5, r, b, g);
-		gfx.PutPixel(x, y - 4, r, b, g);
-		gfx.PutPixel(x, y - 3, r, b, g);
-		gfx.PutPixel(x, y + 3, r, b, g);
-		gfx.PutPixel(x, y + 4, r, b, g);
-		gfx.PutPixel(x, y + 5, r, b, g);
+		gfx.PutPixel(x - 5, y, r, g, b);
+		gfx.PutPixel(x - 4, y, r, g, b);
+		gfx.PutPixel(x - 3, y, r, g, b);
+		gfx.PutPixel(x + 3, y, r, g, b);
+		gfx.PutPixel(x + 4, y, r, g, b);
+		gfx.PutPixel(x + 5, y, r, g, b);
+		gfx.PutPixel(x, y - 5, r, g, b);
+		gfx.PutPixel(x, y - 4, r, g, b);
+		gfx.PutPixel(x, y - 3, r, g, b);
+		gfx.PutPixel(x, y + 3, r, g, b);
+		gfx.PutPixel(x, y + 4, r, g, b);
+		gfx.PutPixel(x, y + 5, r, g, b);
 	}
 	else
 	{
-		gfx.PutPixel(x - 5, y + 5, r, b, g);
-		gfx.PutPixel(x - 4, y + 4, r, b, g);
-		gfx.PutPixel(x - 3, y + 3, r, b, g);
-		gfx.PutPixel(x + 3, y - 3, r, b, g);
-		gfx.PutPixel(x + 4, y - 4, r, b, g);
-		gfx.PutPixel(x + 5, y - 5 , r, b, g);
-		gfx.PutPixel(x - 5, y - 5, r, b, g);
-		gfx.PutPixel(x - 4, y - 4, r, b, g);
-		gfx.PutPixel(x - 3, y - 3, r, b, g);
-		gfx.PutPixel(x + 3, y + 3, r, b, g);
-		gfx.PutPixel(x + 4, y + 4, r, b, g);
-		gfx.PutPixel(x + 5, y + 5, r, b, g);
+		gfx.PutPixel(x - 5, y + 5, r, g, b);
+		gfx.PutPixel(x - 4, y + 4, r, g, b);
+		gfx.PutPixel(x - 3, y + 3, r, g, b);
+		gfx.PutPixel(x + 3, y - 3, r, g, b);
+		gfx.PutPixel(x + 4, y - 4, r, g, b);
+		gfx.PutPixel(x + 5, y - 5, r, g, b);
+		gfx.PutPixel(x - 5, y - 5, r, g, b);
+		gfx.PutPixel(x - 4, y - 4, r, g, b);
+		gfx.PutPixel(x - 3, y - 3, r, g, b);
+		gfx.PutPixel(x + 3, y + 3, r, g, b);
+		gfx.PutPixel(x + 4, y + 4, r, g, b);
+		gfx.PutPixel(x + 5, y + 5, r, g, b);
 	}
+
+	gfx.PutPixel(boxX - 5, boxY + 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 5, boxY + 4, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 5, boxY + 3, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 5, boxY - 3, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 5, boxY - 4, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 5, boxY - 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 5, boxY - 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 5, boxY - 4, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 5, boxY - 3, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 5, boxY + 3, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 5, boxY + 4, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 5, boxY + 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 4, boxY + 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 3, boxY + 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 4, boxY - 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 3, boxY - 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 4, boxY - 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX - 3, boxY - 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 4, boxY + 5, boxR, boxG, boxB);
+	gfx.PutPixel(boxX + 3, boxY + 5, boxR, boxG, boxB);
 }

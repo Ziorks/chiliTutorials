@@ -57,25 +57,10 @@ void Game::UpdateModel()
 	{
 		mobile_x += 1;
 	}
+
+	mobile_x = ClampX(mobile_x);
+	mobile_y = ClampY(mobile_y);
    
-
-	if (mobile_x > gfx.ScreenWidth - 6)
-	{
-		mobile_x = gfx.ScreenWidth - 6;
-	}
-	if (mobile_x < 5)
-	{
-		mobile_x = 5;
-	}
-	if (mobile_y > gfx.ScreenHeight - 6)
-	{
-		mobile_y = gfx.ScreenHeight - 6;
-	}
-	if (mobile_y < 5)
-	{
-		mobile_y = 5;
-	}	
-
 	colliding = 
 		OverlapTest(mobile_x, mobile_y, fixed_x0, fixed_y0) ||
 		OverlapTest(mobile_x, mobile_y, fixed_x1, fixed_y1) ||
@@ -142,6 +127,34 @@ bool Game::OverlapTest(int x0, int y0, int x1, int y1)
 		box0_bottom >= box1_top;
 }
 
-//homework:
-//ezpz mode: create function to keep box within window
-//hard mode: same thing but can't use x_mobile or y_mobile (ie can't use member variables directly)
+int Game::ClampX(int x)
+{
+	if (x > gfx.ScreenWidth - 6)
+	{
+		return gfx.ScreenWidth - 6;
+	}
+	if (x < 5)
+	{
+		return 5;
+	}
+	else
+	{
+		return x;
+	}
+}
+
+int Game::ClampY(int y)
+{
+	if (y > gfx.ScreenHeight - 6)
+	{
+		return gfx.ScreenHeight - 6;
+	}
+	if (y < 5)
+	{
+		return 5;
+	}
+	else
+	{
+		return y;
+	}
+}

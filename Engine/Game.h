@@ -38,6 +38,8 @@ private:
 	/*  User Functions              */
 	void DrawBox(int x, int y, int r, int g, int b);
 	bool OverlapTest(int x0, int x1, int y0, int y1);
+	int ClampX(int x);
+	int ClampY(int y);
 	/********************************/
 private:
 	MainWindow& wnd;

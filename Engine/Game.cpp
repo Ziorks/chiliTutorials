@@ -96,18 +96,22 @@ void Game::UpdateModel()
 	if (x > gfx.ScreenWidth - 6)
 	{
 		x = gfx.ScreenWidth - 6;
+		vx = 0;
 	}
 	if (x < 5)
 	{
 		x = 5;
+		vx = 0;
 	}
 	if (y > gfx.ScreenHeight - 6)
 	{
 		y = gfx.ScreenHeight - 6;
+		vy = 0;
 	}
 	if (y < 5)
 	{
 		y = 5;
+		vy = 0;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
@@ -123,7 +127,18 @@ void Game::UpdateModel()
 		g = 100;
 	}
 
-	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);	
+	if (x < 300 && x > 100)
+	{
+		r = 255;
+		g = 255;
+		b = 255;
+	}	
+
+	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);
+
+	//homework: 
+	//put a stationary green box on the screen
+	//make the reticle change color when it overlaps this green box
 }
 
 void Game::ComposeFrame()

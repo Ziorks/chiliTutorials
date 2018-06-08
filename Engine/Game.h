@@ -42,22 +42,19 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	int x = 400;
-	int y = 425;
-	int vx = 0;
-	int vy = 0;
-	int r = 0;
-	int g = 200;
-	int b = 100;
-	const int boxX = 450;
-	const int boxY = 300;
-	const int boxR = 0;
-	const int boxG = 255;
-	const int boxB = 100;
-	bool shapeIsChanged = false;
-	bool inhibitUp = false;
-	bool inhibitDown = false;
-	bool inhibitLeft = false;
-	bool inhibitRight = false;
+	int mobile_x = 400;
+	int mobile_y = 425;
+	int mobile_r = 0;
+	int mobile_g = 255;
+	int mobile_b = 100;
+	const int fixed_x = 450;
+	const int fixed_y = 300;
+	const int fixed_r = 255;
+	const int fixed_g = 255;
+	const int fixed_b = 255;
+	const int fixed_bottom = fixed_y + 5;
+	const int fixed_top = fixed_y - 5;
+	const int fixed_left = fixed_x - 5;
+	const int fixed_right = fixed_x + 5;
 	/********************************/
 };

@@ -40,155 +40,106 @@ void Game::UpdateModel()
 {
 	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		if (!inhibitUp)
-		{
-			vy -= 1;
-			inhibitUp = true;
-		}
-	}
-	else
-	{
-		inhibitUp = false;
+		mobile_y -= 1;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		if (!inhibitLeft)
-		{
-			vx -= 1;
-			inhibitLeft = true;
-		}
-	}
-	else
-	{
-		inhibitLeft = false;
+		mobile_x -= 1;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		if (!inhibitDown)
-		{
-			vy += 1;
-			inhibitDown = true;
-		}
-	}
-	else
-	{
-		inhibitDown = false;
+		mobile_y += 1;
 	}
 
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		if (!inhibitRight)
-		{
-			vx += 1;
-			inhibitRight = true;
-		}
-	}
-	else
-	{
-		inhibitRight = false;
+		mobile_x += 1;
 	}
    
-	x += vx;
-	y += vy;
 
-	if (x > gfx.ScreenWidth - 6)
+	if (mobile_x > gfx.ScreenWidth - 6)
 	{
-		x = gfx.ScreenWidth - 6;
-		vx = 0;
+		mobile_x = gfx.ScreenWidth - 6;
 	}
-	if (x < 5)
+	if (mobile_x < 5)
 	{
-		x = 5;
-		vx = 0;
+		mobile_x = 5;
 	}
-	if (y > gfx.ScreenHeight - 6)
+	if (mobile_y > gfx.ScreenHeight - 6)
 	{
-		y = gfx.ScreenHeight - 6;
-		vy = 0;
+		mobile_y = gfx.ScreenHeight - 6;
 	}
-	if (y < 5)
+	if (mobile_y < 5)
 	{
-		y = 5;
-		vy = 0;
-	}
+		mobile_y = 5;
+	}	
 
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+	const int mobile_bottom = mobile_y + 5;
+	const int mobile_top = mobile_y - 5;
+	const int mobile_left = mobile_x - 5;
+	const int mobile_right = mobile_x + 5;
+
+	if (mobile_left < fixed_right && 
+		mobile_right > fixed_left &&
+		mobile_top < fixed_bottom && 
+		mobile_bottom > fixed_top)
 	{
-		r = 150;
-		g = 50;
-		b = 25;
+		mobile_r = 255;
+		mobile_g = 0;
+		mobile_b = 0;
 	}
 	else
 	{
-		r = 0;
-		g = 200;
-		b = 100;
+		mobile_r = 0;
+		mobile_g = 255;
+		mobile_b = 100;
 	}
-
-	if (x < boxX + 5 && x > boxX - 5 &&
-		y < boxY + 5 && y > boxY - 5)
-	{
-		r = 255;
-		g = 255;
-		b = 255;
-	}	
-
-	shapeIsChanged = wnd.kbd.KeyIsPressed(VK_SHIFT);
 }
 
 void Game::ComposeFrame()
 {
-	if (!shapeIsChanged)
-	{
-		gfx.PutPixel(x - 5, y, r, g, b);
-		gfx.PutPixel(x - 4, y, r, g, b);
-		gfx.PutPixel(x - 3, y, r, g, b);
-		gfx.PutPixel(x + 3, y, r, g, b);
-		gfx.PutPixel(x + 4, y, r, g, b);
-		gfx.PutPixel(x + 5, y, r, g, b);
-		gfx.PutPixel(x, y - 5, r, g, b);
-		gfx.PutPixel(x, y - 4, r, g, b);
-		gfx.PutPixel(x, y - 3, r, g, b);
-		gfx.PutPixel(x, y + 3, r, g, b);
-		gfx.PutPixel(x, y + 4, r, g, b);
-		gfx.PutPixel(x, y + 5, r, g, b);
-	}
-	else
-	{
-		gfx.PutPixel(x - 5, y + 5, r, g, b);
-		gfx.PutPixel(x - 4, y + 4, r, g, b);
-		gfx.PutPixel(x - 3, y + 3, r, g, b);
-		gfx.PutPixel(x + 3, y - 3, r, g, b);
-		gfx.PutPixel(x + 4, y - 4, r, g, b);
-		gfx.PutPixel(x + 5, y - 5, r, g, b);
-		gfx.PutPixel(x - 5, y - 5, r, g, b);
-		gfx.PutPixel(x - 4, y - 4, r, g, b);
-		gfx.PutPixel(x - 3, y - 3, r, g, b);
-		gfx.PutPixel(x + 3, y + 3, r, g, b);
-		gfx.PutPixel(x + 4, y + 4, r, g, b);
-		gfx.PutPixel(x + 5, y + 5, r, g, b);
-	}
+	gfx.PutPixel(mobile_x - 5, mobile_y + 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 5, mobile_y + 4, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 5, mobile_y + 3, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 5, mobile_y - 3, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 5, mobile_y - 4, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 5, mobile_y - 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 5, mobile_y - 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 5, mobile_y - 4, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 5, mobile_y - 3, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 5, mobile_y + 3, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 5, mobile_y + 4, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 5, mobile_y + 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 4, mobile_y + 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 3, mobile_y + 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 4, mobile_y - 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 3, mobile_y - 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 4, mobile_y - 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x - 3, mobile_y - 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 4, mobile_y + 5, mobile_r, mobile_g, mobile_b);
+	gfx.PutPixel(mobile_x + 3, mobile_y + 5, mobile_r, mobile_g, mobile_b);
 
-	gfx.PutPixel(boxX - 5, boxY + 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 5, boxY + 4, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 5, boxY + 3, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 5, boxY - 3, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 5, boxY - 4, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 5, boxY - 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 5, boxY - 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 5, boxY - 4, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 5, boxY - 3, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 5, boxY + 3, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 5, boxY + 4, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 5, boxY + 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 4, boxY + 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 3, boxY + 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 4, boxY - 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 3, boxY - 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 4, boxY - 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX - 3, boxY - 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 4, boxY + 5, boxR, boxG, boxB);
-	gfx.PutPixel(boxX + 3, boxY + 5, boxR, boxG, boxB);
+
+	gfx.PutPixel(fixed_x - 5, fixed_y + 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 5, fixed_y + 4, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 5, fixed_y + 3, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 5, fixed_y - 3, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 5, fixed_y - 4, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 5, fixed_y - 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 5, fixed_y - 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 5, fixed_y - 4, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 5, fixed_y - 3, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 5, fixed_y + 3, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 5, fixed_y + 4, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 5, fixed_y + 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 4, fixed_y + 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 3, fixed_y + 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 4, fixed_y - 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 3, fixed_y - 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 4, fixed_y - 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x - 3, fixed_y - 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 4, fixed_y + 5, fixed_r, fixed_g, fixed_b);
+	gfx.PutPixel(fixed_x + 3, fixed_y + 5, fixed_r, fixed_g, fixed_b);
 }

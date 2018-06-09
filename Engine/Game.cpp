@@ -38,42 +38,47 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.kbd.KeyIsPressed(VK_RETURN))
+	if (gameIsStarted)
 	{
-		gameIsStarted = true;
-	}
+		if (wnd.kbd.KeyIsPressed(VK_UP))
+		{
+			dudeY -= 1;
+		}
+		if (wnd.kbd.KeyIsPressed(VK_DOWN))
+		{
+			dudeY += 1;
+		}
+		if (wnd.kbd.KeyIsPressed(VK_LEFT))
+		{
+			dudeX -= 1;
+		}
+		if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+		{
+			dudeX += 1;
+		}
 
-	if (wnd.kbd.KeyIsPressed(VK_UP))
-	{
-		dudeY -= 1;
-	}
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		dudeY += 1;
-	}
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		dudeX -= 1;
-	}
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-	{
-		dudeX += 1;
-	}
+		dudeX = ClampScreenX(dudeX, dudeWidth);
+		dudeY = ClampScreenY(dudeY, dudeHeight);
 
-	dudeX = ClampScreenX(dudeX);
-	dudeY = ClampScreenY(dudeY);
-
-	if (OverlapTest(dudeX, dudeY, poo0X, poo0Y))
-	{
-		poo0IsEaten = true;
+		if (OverlapTest(dudeX, dudeY, dudeWidth, dudeHeight, poo0X, poo0Y, pooWidth, pooHeight))
+		{
+			poo0IsEaten = true;
+		}
+		if (OverlapTest(dudeX, dudeY, dudeWidth, dudeHeight, poo1X, poo1Y, pooWidth, pooHeight))
+		{
+			poo1IsEaten = true;
+		}
+		if (OverlapTest(dudeX, dudeY, dudeWidth, dudeHeight, poo2X, poo2Y, pooWidth, pooHeight))
+		{
+			poo2IsEaten = true;
+		}
 	}
-	if (OverlapTest(dudeX, dudeY, poo1X, poo1Y))
+	else
 	{
-		poo1IsEaten = true;
-	}
-	if (OverlapTest(dudeX, dudeY, poo2X, poo2Y))
-	{
-		poo2IsEaten = true;
+		if (wnd.kbd.KeyIsPressed(VK_RETURN))
+		{
+			gameIsStarted = true;
+		}
 	}
 }
 
@@ -55228,29 +55233,30 @@ void Game::DrawGameOver(int x, int y)
 	gfx.PutPixel(83 + x, 63 + y, 0, 146, 14);
 }
 
-bool Game::OverlapTest(int dudeX, int dudeY, int pooX, int pooY)
+bool Game::OverlapTest(int x0, int y0, int width0, int height0,
+	int x1, int y1, int width1, int height1)
 {
-	int dudeBottom = dudeY + 20;
-	int dudeRight = dudeX + 20;
-	int pooBottom = pooY + 24;
-	int pooRight = pooX + 24;
+	int bottom0 = y0 + height0;
+	int right0 = x0 + width0;
+	int bottom1 = y1 + height1;
+	int right1 = x1 + width1;
 
 	return
-		dudeX < pooRight &&
-		dudeRight > pooX &&
-		dudeY < pooBottom &&
-		dudeBottom > pooY;
+		x0 <= right1 &&
+		right0 >= x1 &&
+		y0 <= bottom1 &&
+		bottom0 >= y1;
 }
 
-int Game::ClampScreenX(int x)
+int Game::ClampScreenX(int x, int width)
 {
 	if (x < 0)
 	{
 		return 0;
 	}
-	else if (x + 20 >= gfx.ScreenWidth)
+	else if (x + width >= gfx.ScreenWidth)
 	{
-		return gfx.ScreenWidth -20;
+		return (gfx.ScreenWidth - 1) - width;
 	}
 	else
 	{
@@ -55258,15 +55264,15 @@ int Game::ClampScreenX(int x)
 	}
 }
 
-int Game::ClampScreenY(int y)
+int Game::ClampScreenY(int y, int height)
 {
 	if (y < 0)
 	{
 		return 0;
 	}
-	else if (y + 20 >= gfx.ScreenHeight)
+	else if (y + height >= gfx.ScreenHeight)
 	{
-		return gfx.ScreenHeight - 20;
+		return (gfx.ScreenHeight - 1) - height;
 	}
 	else
 	{
@@ -55276,21 +55282,22 @@ int Game::ClampScreenY(int y)
 
 void Game::ComposeFrame()
 {
-	if (
-		poo0IsEaten &&
-		poo1IsEaten &&
-		poo2IsEaten)
-	{
-		DrawGameOver(350, 250);
-	}
-
 	if (!gameIsStarted)
 	{
-		DrawTitle(325, 200);
+		DrawTitle(325, 211);
 	}
 	else
 	{
+		if (
+			poo0IsEaten &&
+			poo1IsEaten &&
+			poo2IsEaten)
+		{
+			DrawGameOver(358, 268);
+		}
+
 		DrawFace(dudeX, dudeY);
+
 		if(!poo0IsEaten)
 		{
 			DrawPoo(poo0X, poo0Y);

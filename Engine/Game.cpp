@@ -49,6 +49,10 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.kbd.KeyIsPressed(VK_RETURN))
+	{
+		gameIsStarted = true;
+	}
 	if (gameIsStarted)
 	{
 		if (wnd.kbd.KeyIsPressed(VK_UP))
@@ -69,7 +73,39 @@ void Game::UpdateModel()
 		}
 
 		dudeX = ClampScreenX(dudeX, dudeWidth);
-		dudeY = ClampScreenY(dudeY, dudeHeight);
+		dudeY = ClampScreenY(dudeY, dudeHeight);		
+
+		if (ClampScreenX(poo0X + poo0vx, pooWidth) != poo0X + poo0vx)
+		{
+			poo0vx = -poo0vx;
+		}
+		if (ClampScreenY(poo0Y + poo0vy, pooHeight) != poo0Y + poo0vy)
+		{
+			poo0vy = -poo0vy;
+		}
+		if (ClampScreenX(poo1X + poo1vx, pooWidth) != poo1X + poo1vx)
+		{
+			poo1vx = -poo1vx;
+		}
+		if (ClampScreenY(poo1Y + poo1vy, pooHeight) != poo1Y + poo1vy)
+		{
+			poo1vy = -poo1vy;
+		}
+		if (ClampScreenX(poo2X + poo2vx, pooWidth) != poo2X + poo2vx)
+		{
+			poo2vx = -poo2vx;
+		}
+		if (ClampScreenY(poo2Y + poo2vy, pooHeight) != poo2Y + poo2vy)
+		{
+			poo2vy = -poo2vy;
+		}
+		
+		poo0X += poo0vx;
+		poo0Y += poo0vy;
+		poo1X += poo1vx;
+		poo1Y += poo1vy;
+		poo2X += poo2vx;
+		poo2Y += poo2vy;
 
 		if (OverlapTest(dudeX, dudeY, dudeWidth, dudeHeight, poo0X, poo0Y, pooWidth, pooHeight))
 		{
@@ -82,13 +118,6 @@ void Game::UpdateModel()
 		if (OverlapTest(dudeX, dudeY, dudeWidth, dudeHeight, poo2X, poo2Y, pooWidth, pooHeight))
 		{
 			poo2IsEaten = true;
-		}
-	}
-	else
-	{
-		if (wnd.kbd.KeyIsPressed(VK_RETURN))
-		{
-			gameIsStarted = true;
 		}
 	}
 }

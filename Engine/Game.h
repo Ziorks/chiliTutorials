@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Poo.h"
+#include "Dude.h"
 
 class Game
 {
@@ -41,23 +42,16 @@ private:
 	void DrawPoo(int x, int y);
 	void DrawTitle(int x, int y);
 	void DrawGameOver(int x, int y);
-	bool OverlapTest(int x0, int y0, int width0, int height0,
-		int x1, int y1, int width1, int height1);
-	int ClampScreenX(int x, int width);
-	int ClampScreenY(int y, int height);
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	int dudeX = 400;
-	int dudeY = 300;
+	Dude dude;
 	Poo poo0;
 	Poo poo1;
 	Poo poo2;
-	const int dudeWidth = 20;
-	const int dudeHeight = 20;
 	bool gameIsStarted = false;
 	/********************************/
 };

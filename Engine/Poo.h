@@ -11,4 +11,5 @@ public:
 	static constexpr int height = 24;
 	bool isEaten = false;
 	void Update();
+	void ProcessConsumption(int dudex, int dudey, int dudewidth, int dudeheight);
 };

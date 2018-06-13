@@ -1,5 +1,6 @@
 #include "Poo.h"
 #include "Graphics.h"
+#include "Dude.h"
 
 void Poo::Update()
 {
@@ -26,5 +27,22 @@ void Poo::Update()
 	{
 		y = (Graphics::ScreenHeight - 1) - height;
 		vy = -vy;
+	}
+}
+
+void Poo::ProcessConsumption(int dudex, int dudey, int dudewidth, int dudeheight)
+{
+	int bottomPoo = y + height;
+	int rightPoo = x + width;
+	int bottomDude = dudey + dudeheight;
+	int rightDude = dudex + dudewidth;
+
+	if (
+		x <= rightDude &&
+		rightPoo >= x &&
+		y <= bottomDude &&
+		bottomPoo >= y)
+	{
+		isEaten = true;
 	}
 }

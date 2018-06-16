@@ -38,8 +38,48 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.kbd.KeyIsPressed('D'))
+	{
+		boxX++;
+	}
+	if (wnd.kbd.KeyIsPressed('A'))
+	{
+		boxX--;
+	}
+	if (wnd.kbd.KeyIsPressed('W'))
+	{
+		boxY--;
+	}
+	if (wnd.kbd.KeyIsPressed('S'))
+	{
+		boxY++;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_UP))
+	{
+		height--;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		height++;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	{
+		width--;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	{
+		width++;
+	}
 }
 
 void Game::ComposeFrame()
 {
+	for (int x = boxX; x < boxX + width; x++)
+	{
+		for (int y = boxY; y < boxY + height; y++)
+		{
+			gfx.PutPixel(x, y, 255, 255, 255);
+		}
+	}
 }

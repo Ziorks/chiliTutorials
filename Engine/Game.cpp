@@ -55,31 +55,14 @@ void Game::UpdateModel()
 		boxY++;
 	}
 
-	if (wnd.kbd.KeyIsPressed(VK_UP))
+	if (wnd.mouse.LeftIsPressed())
 	{
-		height--;
-	}
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		height++;
-	}
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		width--;
-	}
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-	{
-		width++;
+		width = wnd.mouse.GetPosX();
+		height = wnd.mouse.GetPosY();
 	}
 }
 
 void Game::ComposeFrame()
 {
-	for (int x = boxX; x < boxX + width; x++)
-	{
-		for (int y = boxY; y < boxY + height; y++)
-		{
-			gfx.PutPixel(x, y, 255, 255, 255);
-		}
-	}
+	gfx.DrawRect(boxX, boxY, width, height, Colors::Magenta);
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include "Graphics.h"
+#include "Dude.h"
 
 class Poo
 {
@@ -11,5 +13,6 @@ public:
 	static constexpr int height = 24;
 	bool isEaten = false;
 	void Update();
-	void ProcessConsumption(int dudex, int dudey, int dudewidth, int dudeheight);
+	void ProcessConsumption(const Dude& dude);
+	void Draw(Graphics& gfx) const;
 };

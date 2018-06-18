@@ -1,27 +1,6 @@
 #include "Dude.h"
 #include "Graphics.h"
 
-void Dude::ClampToScreen()
-{
-	if (x < 0)
-	{
-		x = 0;
-	}
-	else if (x + width >= Graphics::ScreenWidth)
-	{
-		x = (Graphics::ScreenWidth - 1) - width;
-	}
-
-	if (y < 0)
-	{
-		y = 0;
-	}
-	else if (y + height >= Graphics::ScreenHeight)
-	{
-		y = (Graphics::ScreenHeight - 1) - height;
-	}
-}
-
 void Dude::Draw(Graphics & gfx) const
 {
 	gfx.PutPixel(7 + x, 0 + y, 0, 0, 0);
@@ -340,4 +319,52 @@ void Dude::Draw(Graphics & gfx) const
 	gfx.PutPixel(10 + x, 19 + y, 0, 0, 0);
 	gfx.PutPixel(11 + x, 19 + y, 0, 0, 0);
 	gfx.PutPixel(12 + x, 19 + y, 0, 0, 0);
+}
+
+void Dude::Move(const MainWindow& wnd)
+{
+	if (wnd.kbd.KeyIsPressed(VK_UP))
+	{
+		y -= 1;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		y += 1;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	{
+		x -= 1;
+	}
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	{
+		x += 1;
+	}
+
+	if (x < 0)
+	{
+		x = 0;
+	}
+	else if (x + width >= Graphics::ScreenWidth)
+	{
+		x = (Graphics::ScreenWidth - 1) - width;
+	}
+
+	if (y < 0)
+	{
+		y = 0;
+	}
+	else if (y + height >= Graphics::ScreenHeight)
+	{
+		y = (Graphics::ScreenHeight - 1) - height;
+	}
+}
+
+int Dude::GetXPos() const
+{
+	return x;
+}
+
+int Dude::GetYPos() const
+{
+	return y;
 }

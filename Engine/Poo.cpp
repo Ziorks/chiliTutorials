@@ -42,14 +42,14 @@ void Poo::ProcessConsumption(const Dude& dude)
 {
 	int bottomPoo = y + height;
 	int rightPoo = x + width;
-	int bottomDude = dude.y + dude.height;
-	int rightDude = dude.x + dude.width;
+	int bottomDude = dude.GetYPos() + Dude::height;
+	int rightDude = dude.GetXPos() + Dude::width;
 
 	if (
 		x <= rightDude &&
-		rightPoo >= dude.x &&
+		rightPoo >= dude.GetXPos() &&
 		y <= bottomDude &&
-		bottomPoo >= dude.y)
+		bottomPoo >= dude.GetYPos())
 	{
 		isEaten = true;
 	}

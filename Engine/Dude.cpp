@@ -321,23 +321,23 @@ void Dude::Draw(Graphics & gfx) const
 	gfx.PutPixel(12 + x, 19 + y, 0, 0, 0);
 }
 
-void Dude::Move(const MainWindow& wnd)
+void Dude::Move(const Keyboard& kbd)
 {
-	if (wnd.kbd.KeyIsPressed(VK_UP))
+	if (kbd.KeyIsPressed(VK_UP))
 	{
-		y -= 1;
+		y -= speed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	if (kbd.KeyIsPressed(VK_DOWN))
 	{
-		y += 1;
+		y += speed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	if (kbd.KeyIsPressed(VK_LEFT))
 	{
-		x -= 1;
+		x -= speed;
 	}
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	if (kbd.KeyIsPressed(VK_RIGHT))
 	{
-		x += 1;
+		x += speed;
 	}
 
 	if (x < 0)
@@ -367,4 +367,14 @@ int Dude::GetXPos() const
 int Dude::GetYPos() const
 {
 	return y;
+}
+
+int Dude::GetWidth() const
+{
+	return width;
+}
+
+int Dude::GetHeight() const
+{
+	return height;
 }

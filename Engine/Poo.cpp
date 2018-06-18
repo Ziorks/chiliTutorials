@@ -42,8 +42,8 @@ void Poo::ProcessConsumption(const Dude& dude)
 {
 	int bottomPoo = y + height;
 	int rightPoo = x + width;
-	int bottomDude = dude.GetYPos() + Dude::height;
-	int rightDude = dude.GetXPos() + Dude::width;
+	int bottomDude = dude.GetYPos() + dude.GetHeight();
+	int rightDude = dude.GetXPos() + dude.GetWidth();
 
 	if (
 		x <= rightDude &&

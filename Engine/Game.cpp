@@ -57,7 +57,7 @@ void Game::UpdateModel()
 	}
 	if (gameIsStarted)
 	{
-		dude.Move(wnd);
+		dude.Move(wnd.kbd);
 
 		poo0.Update();
 		poo1.Update();

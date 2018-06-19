@@ -29,16 +29,12 @@ Game::Game( MainWindow& wnd )
 	rng( rd() ),
 	xDist(0,770),
 	yDist(0,570),
-	poo0(xDist(rng), yDist(rng), 1, 1),
-	poo1(xDist(rng), yDist(rng), 1, 1),
-	poo2(xDist(rng), yDist(rng), 1, 1),
-	poo3(xDist(rng), yDist(rng), 1, 1),
-	poo4(xDist(rng), yDist(rng), 1, 1),
-	poo5(xDist(rng), yDist(rng), 1, 1),
-	poo6(xDist(rng), yDist(rng), 1, 1),
-	poo7(xDist(rng), yDist(rng), 1, 1),
-	poo8(xDist(rng), yDist(rng), 1, 1)
+	vDist(-1,1)
 {
+	for (int i = 0; i < nPoo; i++)
+	{
+		poos[i].Init(xDist(rng), yDist(rng), vDist(rng), vDist(rng));
+	}
 }
 
 void Game::Go()
@@ -59,25 +55,11 @@ void Game::UpdateModel()
 	{
 		dude.Move(wnd.kbd);
 
-		poo0.Update();
-		poo1.Update();
-		poo2.Update();
-		poo3.Update();
-		poo4.Update();
-		poo5.Update();
-		poo6.Update();
-		poo7.Update();
-		poo8.Update();
-
-		poo0.ProcessConsumption(dude);
-		poo1.ProcessConsumption(dude);
-		poo2.ProcessConsumption(dude);
-		poo3.ProcessConsumption(dude);
-		poo4.ProcessConsumption(dude);
-		poo5.ProcessConsumption(dude);
-		poo6.ProcessConsumption(dude);
-		poo7.ProcessConsumption(dude);
-		poo8.ProcessConsumption(dude);
+		for (int i = 0; i < nPoo; i++)
+		{
+			poos[i].Update();
+			poos[i].ProcessConsumption(dude);
+		}
 	}
 }
 
@@ -54685,57 +54667,24 @@ void Game::ComposeFrame()
 	}
 	else
 	{
-		if (
-			poo0.IsEaten() &&
-			poo1.IsEaten() &&
-			poo2.IsEaten() &&
-			poo3.IsEaten() &&
-			poo4.IsEaten() &&
-			poo5.IsEaten() &&
-			poo6.IsEaten() &&
-			poo7.IsEaten() &&
-			poo8.IsEaten())
+		bool allEaten = true;
+		for (int i = 0; i < nPoo; i++)
+		{
+			allEaten = allEaten && poos[i].IsEaten();
+		}
+		if (allEaten)
 		{
 			DrawGameOver(358, 268);
 		}
 
 		dude.Draw(gfx);
 
-		if(!poo0.IsEaten())
+		for (int i = 0; i < nPoo; i++)
 		{
-			poo0.Draw(gfx);
-		}
-		if (!poo1.IsEaten())
-		{
-			poo1.Draw(gfx);
-		}
-		if (!poo2.IsEaten())
-		{
-			poo2.Draw(gfx);
-		}
-		if (!poo3.IsEaten())
-		{
-			poo3.Draw(gfx);
-		}
-		if (!poo4.IsEaten())
-		{
-			poo4.Draw(gfx);
-		}
-		if (!poo5.IsEaten())
-		{
-			poo5.Draw(gfx);
-		}
-		if (!poo6.IsEaten())
-		{
-			poo6.Draw(gfx);
-		}
-		if (!poo7.IsEaten())
-		{
-			poo7.Draw(gfx);
-		}
-		if (!poo8.IsEaten())
-		{
-			poo8.Draw(gfx);
+			if (!poos[i].IsEaten())
+			{
+				poos[i].Draw(gfx);
+			}
 		}
 	}
 }

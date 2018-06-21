@@ -29,7 +29,9 @@ Game::Game( MainWindow& wnd )
 	rng( rd() ),
 	xDist(0,770),
 	yDist(0,570),
-	vDist(-1,1)
+	vDist(-1,1),
+	goal(xDist(rng),yDist(rng)),
+	score(20,20)
 {
 	for (int i = 0; i < nPoo; i++)
 	{
@@ -51,14 +53,21 @@ void Game::UpdateModel()
 	{
 		gameIsStarted = true;
 	}
-	if (gameIsStarted)
+	if (gameIsStarted && !gameIsOver)
 	{
 		dude.Move(wnd.kbd);
-
+		if (goal.CollisionTest(dude)) 
+		{
+			score.IncreaseScore();
+			goal.Respawn(xDist(rng), yDist(rng));
+		}
 		for (int i = 0; i < nPoo; i++)
 		{
 			poos[i].Update();
-			poos[i].ProcessConsumption(dude);
+			if (poos[i].CollisionTest(dude))
+			{
+				gameIsOver = true;
+			}
 		}
 	}
 }
@@ -54667,24 +54676,20 @@ void Game::ComposeFrame()
 	}
 	else
 	{
-		bool allEaten = true;
-		for (int i = 0; i < nPoo; i++)
-		{
-			allEaten = allEaten && poos[i].IsEaten();
-		}
-		if (allEaten)
-		{
-			DrawGameOver(358, 268);
-		}
-
 		dude.Draw(gfx);
 
 		for (int i = 0; i < nPoo; i++)
 		{
-			if (!poos[i].IsEaten())
-			{
-				poos[i].Draw(gfx);
-			}
+			poos[i].Draw(gfx);
+		}
+
+		goal.Draw(gfx);
+		goal.UpdateColor();
+		score.Draw(gfx);
+
+		if (gameIsOver)
+		{
+			DrawGameOver(358, 268);
 		}
 	}
 }

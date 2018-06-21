@@ -25,6 +25,8 @@
 #include "Graphics.h"
 #include "Poo.h"
 #include "Dude.h"
+#include "Goal.h"
+#include "ScoreBar.h"
 #include <random>
 
 class Game
@@ -53,8 +55,11 @@ private:
 	std::uniform_int_distribution<int> yDist;
 	std::uniform_int_distribution<int> vDist;
 	Dude dude;
-	static constexpr int nPoo = 1000;
+	Goal goal;
+	ScoreBar score;
+	static constexpr int nPoo = 10;
 	Poo poos[nPoo];
 	bool gameIsStarted = false;
+	bool gameIsOver = false;
 	/********************************/
 };

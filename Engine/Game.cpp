@@ -44,13 +44,15 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	std::uniform_int_distribution<int> colorDist(0, 255);
+	
 	for (int y = 0; y < brd.GetHeight(); ++y)
 	{
 		for (int x = 0; x < brd.GetWidth(); ++x)
 		{
+			std::uniform_int_distribution<int> colorDist(50, 200);
+			const int grey = colorDist(rng);
 			Location loc = { x,y };
-			Color c( colorDist(rng), colorDist(rng), colorDist(rng));
+			Color c( grey, grey, grey);
 			brd.DrawCell(loc, c);
 		}
 	}

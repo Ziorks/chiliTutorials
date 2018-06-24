@@ -6,7 +6,7 @@
 class Board {
 public:
 	Board(Graphics& gfx);
-	void DrawCell(Location& loc, Color c);
+	void DrawCell(const Location& loc, Color c);
 	int GetWidth()const;
 	int GetHeight()const;
 private:

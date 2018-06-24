@@ -6,7 +6,7 @@ Board::Board(Graphics & gfx)
 {
 }
 
-void Board::DrawCell(Location& loc, Color c)
+void Board::DrawCell(const Location& loc, Color c)
 {
 	gfx.DrawRectDim((loc.x * dimension) + padding, (loc.y * dimension) + padding, dimension - (padding * 2), dimension - (padding * 2), c);
 }

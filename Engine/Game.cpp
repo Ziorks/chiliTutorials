@@ -20,13 +20,18 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "SpriteCodex.h"
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
 	brd( gfx ),
-	rng(std::random_device()())
+	rng(std::random_device()()),
+	snek({20,15}),
+	goal({ xDist(rng),yDist(rng) }),
+	xDist(0,brd.GetWidth()),
+	yDist(0,brd.GetHeight())
 {
 }
 
@@ -40,20 +45,53 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (!gameIsStarted)
+	{
+		if (wnd.kbd.KeyIsPressed(VK_RETURN))
+		{
+			gameIsStarted = true;
+		}
+	}
+	else
+	{
+		if (wnd.kbd.KeyIsPressed(VK_UP))
+		{
+			snekDeltaLoc = { 0,-1 };
+		}
+		if (wnd.kbd.KeyIsPressed(VK_DOWN))
+		{
+			snekDeltaLoc = { 0,1 };
+		}
+		if (wnd.kbd.KeyIsPressed(VK_LEFT))
+		{
+			snekDeltaLoc = { -1,0 };
+		}
+		if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+		{
+			snekDeltaLoc = { 1,0 };
+		}
+		moveCounter++;
+		if (moveCounter == movePeriod)
+		{
+			snek.MoveBy(snekDeltaLoc);
+			moveCounter = 0;
+		}
+	}
 }
 
 void Game::ComposeFrame()
 {
-	
-	for (int y = 0; y < brd.GetHeight(); ++y)
+	if (!gameIsStarted)
 	{
-		for (int x = 0; x < brd.GetWidth(); ++x)
+		SpriteCodex::DrawTitle(300,200,gfx);
+	}
+	else
+	{
+		goal.Draw(brd);
+		snek.Draw(brd);
+		if (gameIsOver)
 		{
-			std::uniform_int_distribution<int> colorDist(50, 200);
-			const int grey = colorDist(rng);
-			Location loc = { x,y };
-			Color c( grey, grey, grey);
-			brd.DrawCell(loc, c);
+			SpriteCodex::DrawGameOver(300, 200, gfx);
 		}
 	}
 }

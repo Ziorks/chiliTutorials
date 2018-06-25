@@ -1,16 +1,31 @@
 #include "Goal.h"
 
-Goal::Goal(const Location & in_loc)
+
+Goal::Goal(std::mt19937 rng, const Board& brd, const Snake & snek)
 {
-	loc = in_loc;
+	Respawn(rng, brd, snek);
 }
 
-void Goal::Respawn(const Location & in_loc, const Snake & snek)
+void Goal::Respawn(std::mt19937& rng, const Board& brd, const Snake & snek)
 {
-	loc = in_loc;
+	std::uniform_int_distribution<int> xDist(0, brd.GetWidth() - 1);
+	std::uniform_int_distribution<int> yDist(0, brd.GetHeight() - 1);
+
+	Location newLoc;
+	do
+	{
+		newLoc.x = xDist(rng);
+		newLoc.y = yDist(rng);
+	} while (snek.IsInTile(newLoc));
+	loc = newLoc;
 }
 
 void Goal::Draw(Board & brd) const
 {
 	brd.DrawCell(loc, c);
+}
+
+const Location & Goal::GetLocation() const
+{
+	return loc;
 }

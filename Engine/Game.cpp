@@ -29,15 +29,13 @@ Game::Game( MainWindow& wnd )
 	brd( gfx ),
 	rng(std::random_device()()),
 	snek({20,15}),
-	goal({ xDist(rng),yDist(rng) }),
-	xDist(0,brd.GetWidth()),
-	yDist(0,brd.GetHeight())
+	goal(rng,brd,snek)
 {
 }
 
 void Game::Go()
 {
-	gfx.BeginFrame();	
+	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
@@ -52,7 +50,7 @@ void Game::UpdateModel()
 			gameIsStarted = true;
 		}
 	}
-	else
+	if (gameIsStarted && !gameIsOver)
 	{
 		if (wnd.kbd.KeyIsPressed(VK_UP))
 		{
@@ -73,8 +71,26 @@ void Game::UpdateModel()
 		moveCounter++;
 		if (moveCounter == movePeriod)
 		{
-			snek.MoveBy(snekDeltaLoc);
 			moveCounter = 0;
+			const Location next = snek.GetNextHeadLocation(snekDeltaLoc);
+			if (!brd.IsInBoard(next)||
+				snek.IsInTileExceptEnd(next))
+			{
+				gameIsOver = true;
+			}
+			else
+			{
+				if (goal.GetLocation() == next)
+				{
+					snek.Grow();
+					snek.MoveBy(snekDeltaLoc);
+					goal.Respawn(rng, brd, snek);
+				}
+				else
+				{
+					snek.MoveBy(snekDeltaLoc);
+				}
+			}
 		}
 	}
 }
@@ -89,9 +105,10 @@ void Game::ComposeFrame()
 	{
 		goal.Draw(brd);
 		snek.Draw(brd);
+		brd.DrawBorder();
 		if (gameIsOver)
 		{
-			SpriteCodex::DrawGameOver(300, 200, gfx);
+			SpriteCodex::DrawGameOver(350, 275, gfx);
 		}
 	}
 }

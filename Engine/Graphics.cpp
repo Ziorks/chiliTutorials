@@ -340,6 +340,14 @@ void Graphics::DrawRectDim(int x0, int y0, int width, int height, Color c)
 	DrawRect(x0, y0, x0 + width, y0 + height, c);
 }
 
+void Graphics::DrawRectBorder(int x0, int y0, int width, int height, int stroke, Color c)
+{
+	DrawRect(x0 - stroke, y0, x0, y0 + height, c);
+	DrawRect(x0 + width, y0, x0 + width + stroke, y0 + height, c);
+	DrawRect(x0 - stroke, y0 - stroke, x0 + width + stroke, y0, c);
+	DrawRect(x0 - stroke, y0 + height, x0 + width + stroke, y0 + height + stroke, c);
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception

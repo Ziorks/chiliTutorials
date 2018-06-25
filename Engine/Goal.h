@@ -2,13 +2,15 @@
 
 #include "Board.h"
 #include "Snake.h"
+#include <random>
 
 class Goal
 {
 public:
-	Goal(const Location& in_loc);
-	void Respawn(const Location& in_loc, const Snake& snek);
+	Goal(std::mt19937 rng, const Board& brd, const Snake& snek);
+	void Respawn(std::mt19937& rng, const Board& brd, const Snake& snek);
 	void Draw(Board& brd)const;
+	const Location& GetLocation()const;
 private:
 	Location loc;
 	static constexpr Color c = Colors::Red;

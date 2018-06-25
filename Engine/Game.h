@@ -47,10 +47,8 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Board brd;
-	std::mt19937 rng;
-	std::uniform_int_distribution<int> xDist;
-	std::uniform_int_distribution<int> yDist;
 	Snake snek;
+	std::mt19937 rng;
 	Goal goal;
 	Location snekDeltaLoc = { -1,0 };
 	static constexpr int movePeriod = 30;

@@ -9,6 +9,10 @@ public:
 	void Draw(Board& brd)const;
 	void Grow();
 	void MoveBy(const Location& delta_loc);
+	Location GetNextHeadLocation(const Location& delta_loc)const;
+	bool IsInTile(const Location& target)const;
+	bool IsInTileExceptEnd(const Location& target)const;
+
 private:
 	class Segment
 	{
@@ -18,6 +22,7 @@ private:
 		void Draw(Board& brd)const;
 		void Follow(const Segment& next);
 		void MoveBy(const Location& delta_loc);
+		const Location& GetLocation()const;
 	private:
 		Location loc;
 		Color c;

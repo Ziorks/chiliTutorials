@@ -50,9 +50,17 @@ private:
 	Snake snek;
 	std::mt19937 rng;
 	Goal goal;
-	Location snekDeltaLoc = { -1,0 };
-	static constexpr int movePeriod = 30;
+	int snekDirection;
+	Location snekDeltaLoc[4] = {
+		{-1,0},
+		{1,0},
+		{0,-1},
+		{0,1}
+	};
+	int movePeriod = 30;
 	int moveCounter = 0;
+	static constexpr int speedPeriod = 3;
+	int speedCounter = 0;
 	bool gameIsStarted = false;
 	bool gameIsOver = false;
 	/********************************/

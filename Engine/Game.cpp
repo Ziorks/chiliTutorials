@@ -28,9 +28,11 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	brd( gfx ),
 	rng(std::random_device()()),
-	snek({20,15}),
+	snek({15,10}),
 	goal(rng,brd,snek)
 {
+	std::uniform_int_distribution<int> directionDist(0, 3);
+	snekDirection = directionDist(rng);
 }
 
 void Game::Go()
@@ -54,25 +56,25 @@ void Game::UpdateModel()
 	{
 		if (wnd.kbd.KeyIsPressed(VK_UP))
 		{
-			snekDeltaLoc = { 0,-1 };
+			snekDirection = 2;
 		}
 		if (wnd.kbd.KeyIsPressed(VK_DOWN))
 		{
-			snekDeltaLoc = { 0,1 };
+			snekDirection = 3;
 		}
 		if (wnd.kbd.KeyIsPressed(VK_LEFT))
 		{
-			snekDeltaLoc = { -1,0 };
+			snekDirection = 0;
 		}
 		if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 		{
-			snekDeltaLoc = { 1,0 };
+			snekDirection = 1;
 		}
 		moveCounter++;
-		if (moveCounter == movePeriod)
+		if (moveCounter >= movePeriod)
 		{
 			moveCounter = 0;
-			const Location next = snek.GetNextHeadLocation(snekDeltaLoc);
+			const Location next = snek.GetNextHeadLocation(snekDeltaLoc[snekDirection]);
 			if (!brd.IsInBoard(next)||
 				snek.IsInTileExceptEnd(next))
 			{
@@ -82,13 +84,20 @@ void Game::UpdateModel()
 			{
 				if (goal.GetLocation() == next)
 				{
+					speedCounter++;
+					if (speedCounter >= speedPeriod &&
+						movePeriod > 10)
+					{
+						movePeriod -= 3;
+						speedCounter = 0;
+					}
 					snek.Grow();
-					snek.MoveBy(snekDeltaLoc);
+					snek.MoveBy(snekDeltaLoc[snekDirection]);
 					goal.Respawn(rng, brd, snek);
 				}
 				else
 				{
-					snek.MoveBy(snekDeltaLoc);
+					snek.MoveBy(snekDeltaLoc[snekDirection]);
 				}
 			}
 		}

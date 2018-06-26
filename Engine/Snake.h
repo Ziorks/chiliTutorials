@@ -18,7 +18,7 @@ private:
 	{
 	public:
 		void InitHead(const Location& in_loc);
-		void InitBody();
+		void InitBody(const Color& in_color);
 		void Draw(Board& brd)const;
 		void Follow(const Segment& next);
 		void MoveBy(const Location& delta_loc);
@@ -30,7 +30,6 @@ private:
 
 private:
 	static constexpr Color headColor = Colors::Yellow;
-	static constexpr Color bodyColor = Colors::Green;
 	static constexpr int nSegmentsMax = 100;
 	Segment segments[nSegmentsMax];
 	int nSegments = 1;
